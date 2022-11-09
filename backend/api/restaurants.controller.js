@@ -33,29 +33,31 @@ export default class RestaurantsController {
     res.json(response) // sends a json response to a particular URL
   }
 
-  // static async apiGetRestaurantById(req, res, next) {
-  //   try {
-  //     let id = req.params.id || {} // get id from request parameter (parameter is in the url after a slash)
-  //     let restaurant = await RestaurantsDAO.getRestaurantByID(id) 
-  //     if (!restaurant) {
-  //       res.status(404).json({ error: "Not found" })
-  //       return
-  //     }
-  //     res.json(restaurant)
-  //   } catch (e) {
-  //     console.log(`api, ${e}`)
-  //     res.status(500).json({ error: e })
-  //   }
-  // }
+  // return restaurant by ID from specified route  
+  static async apiGetRestaurantById(req, res, next) {
+    try {
+      let id = req.params.id || {} // get id from request parameter (parameter is in the url after a slash)
+      let restaurant = await RestaurantsDAO.getRestaurantByID(id) 
+      if (!restaurant) {
+        res.status(404).json({ error: "Not found" })
+        return
+      }
+      res.json(restaurant)
+    } catch (e) {
+      console.log(`api, ${e}`)
+      res.status(500).json({ error: e })
+    }
+  }
 
-  // static async apiGetRestaurantCuisines(req, res, next) {
-  //   try {
-  //     let cuisines = await RestaurantsDAO.getCuisines() // just gets the cuisines list
-  //     res.json(cuisines)
-  //   } catch (e) {
-  //     console.log(`api, ${e}`)
-  //     res.status(500).json({ error: e })
-  //   }
-  // }
+  // get list of cuisines
+  static async apiGetRestaurantCuisines(req, res, next) {
+    try {
+      let cuisines = await RestaurantsDAO.getCuisines() // just gets the cuisines list
+      res.json(cuisines)
+    } catch (e) {
+      console.log(`api, ${e}`)
+      res.status(500).json({ error: e })
+    }
+  }
 
 }

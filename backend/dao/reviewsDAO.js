@@ -17,8 +17,9 @@ export default class ReviewsDAO {
 
   static async addReview(restaurantId, user, review, date) {
     try {
-      const reviewDoc = { name: user.name, // creating the review document based on the parameters passed in from the controller
-          user_id: user_id,
+      const reviewDoc = { 
+          name: user.name, // creating the review document based on the parameters passed in from the controller
+          user_id: user._id,
           date: date,
           text: review,
           restaurant_id: ObjectId(restaurantId), } // mongoDB object ID from the restaurant ID

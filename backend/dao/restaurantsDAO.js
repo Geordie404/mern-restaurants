@@ -63,4 +63,65 @@ export default class RestaurantsDAO {
       return { restaurantsList: [], totalNumRestaurants: 0 } // if error, returns empty list
     }
   }
+
+  static async getRestaurantByID(id) {
+    try {
+      // pipeline
+      // in MongoDB this pipeline helps match different collections together
+      // match ID of certain restaurant and get reviews for that restaurant to also add to the request return
+      // 
+      const pipeline = [
+        {
+            $match: {
+                _id: new ObjectId(id),
+            },
+        },
+              {
+                  $lookup: {
+                      from: "reviews", 
+                      let: {
+                          id: "$_id",
+                      },
+                      pipeline: [
+                          {
+                              $match: { // matches restaurant id and find all reviews that match that restaurant ID
+                                  $expr: {
+                                      $eq: ["$restaurant_id", "$$id"],
+                                  },
+                              },
+                          },
+                          {
+                              $sort: {
+                                  date: -1,
+                              },
+                          },
+                      ],
+                      as: "reviews", // sets it as reviews
+                  },
+              },
+              {
+                  $addFields: { // adds all the reviews into a result as a field of reviews
+                      reviews: "$reviews",
+                  },
+              },
+          ]
+      return await restaurants.aggregate(pipeline).next() // collect everything from the pipeline into restaurants
+    } catch (e) {
+      console.error(`Something went wrong in getRestaurantByID: ${e}`)
+      throw e
+    }
+  }
+
+  static async getCuisines() { // simple way to filter by using distinct to get one of each of that field
+    let cuisines = []
+    try {
+      cuisines = await restaurants.distinct("cuisine") // get all the distinct cuisines, only one of each
+      return cuisines
+    } catch (e) {
+      console.error(`Unable to get cuisines, ${e}`)
+      return cuisines
+    }
+  }
+
+
 }
