@@ -1,3 +1,5 @@
+import mongodb from "mongodb"
+const ObjectId = mongodb.ObjectId
 let restaurants
 
 export default class RestaurantsDAO {
