@@ -62,24 +62,20 @@ function App() {
 
           <Route 
             path="/restaurants/:id/review"
-            render={(props) => (
-              <AddReview {...props} user={user} />
-            )}
+            render={(props) => ( <AddReview {...props} user={user} /> )}
           />
 
           <Route 
             path="/restaurants/:id"
-            render={(props) => (
-              <Restaurant {...props} user={user} />
+            render={(props) => (<Restaurant {...props} user={user} />
             )}
           />
 
           <Route 
             path="/login"
-            render={(props) => (
-              <Login {...props} login={login} />
-            )}
+            render={(props) =>(<Login login={login} />)}
           />
+
 
         </Switch>
       </div>
