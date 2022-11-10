@@ -18,7 +18,7 @@ class RestaurantDataService {
     } 
 
     getCuisines(id) {
-        return http.get(`/cuisines`); // get cuisines
+        return http.get(`restaurants/cuisines`); // get cuisines //// added cuisines to url
       }
 
 // POST -> adding a child resource
